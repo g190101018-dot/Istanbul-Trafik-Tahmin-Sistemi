@@ -1,0 +1,2 @@
+İstanbul Trafik ham veri seti 25 MB'lık GitHub yükleme sınırını aştığı için (Büyük Veri - Big Data) buraya yüklenememiştir. 
+Veri setine İBB Açık Veri Portalı üzerinden erişilebilir.
