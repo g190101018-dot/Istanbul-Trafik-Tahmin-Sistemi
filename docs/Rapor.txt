@@ -1,0 +1,17 @@
+# İSTANBUL TRAFİK YOĞUNLUĞU TAHMİN PROJESİ RAPORU
+
+## 1. Projenin Amacı ve Kapsamı
+Bu proje, İstanbul Büyükşehir Belediyesi (İBB) Açık Veri Portalı'ndan alınan 4 yıllık (2020-2024) tarihsel trafik verilerini kullanarak, şehrin ileriye dönük trafik yoğunluğunu tahmin etmek amacıyla geliştirilmiştir. Projede modern makine öğrenmesi algoritmaları ve MLOps standartları uygulanmıştır.
+
+## 2. Veri Seti ve Ön İşleme (Data Preprocessing)
+- **Veri Kaynağı:** İBB Zaman Bazlı Trafik Yoğunluk Veri Seti (60 adet CSV dosyası).
+- **Temizleme:** Eksik, hatalı ve indeks bazlı (araç sayısı yerine yoğunluk oranı içeren) gürültülü veriler `NUMBER_OF_VEHICLES > 50000` filtresiyle ayıklanmıştır. Toplamda 39,660 satırlık temiz ve anlamlı zaman serisi verisi elde edilmiştir.
+- **Öznitelik Mühendisliği (Feature Engineering):** Tarih damgalarından `saat`, `gun_kod` (Haftanın günü) ve `hafta_sonu` değişkenleri üretilmiştir. Zamansal sürekliliği yakalamak adına 1 saat önceki araç sayısını temsil eden `bir_saat_once` (Lag) özniteliği modele beslenmiştir.
+
+## 3. Model Mimarisi ve Eğitimi
+- **Seçilen Algoritma:** XGBoost Regressor (Extreme Gradient Boosting).
+- **Parametreler:** `n_estimators=400`, `learning_rate=0.03`, `max_depth=8`.
+- **Başarı Metriği:** Model, İstanbul trafiğindeki ani pikleri ve mesai saatlerindeki kilitlenmeleri %92'nin üzerinde bir R² (Belirlilik Katsayısı) skoruyla tahmin etmektedir.
+
+## 4. Kullanıcı Arayüzü (API / Demo)
+Uygulamanın arayüzü Streamlit kütüphanesi kullanılarak geliştirilmiştir. Sürücülerin karmaşık araç sayıları yerine doğrudan yol durumunu anlayabilmesi için, tahmin edilen değerler geçmiş verinin yüzdelik dilimlerine göre oranlanmış ve sezgisel bir **10 barlık renkli indikatör (Yeşil/Turuncu/Kırmızı)** sistemine dönüştürülmüştür.
